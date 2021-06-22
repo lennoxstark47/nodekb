@@ -1,8 +1,23 @@
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const app = express();
 
+mongoose.connect('mongodb://localhost/nodekb', {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
+let db = mongoose.connection;
+
+//check for connecion
+db.once('open', () => {
+	console.log('Connected to mongodb');
+});
+//check for db error
+db.on('error', (err) => {
+	console.log(err);
+});
 //view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
